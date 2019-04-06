@@ -8,7 +8,7 @@ export default function Header() {
             <NavLink to="/smurfs">
                 <button>View Smurfs</button>
             </NavLink>
-            <NavLink to="/smurf">
+            <NavLink to="smurf-form">
                 <button>Add Smurfs</button>
             </NavLink>
         </div>

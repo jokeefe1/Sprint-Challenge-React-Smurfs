@@ -17,34 +17,60 @@ class App extends Component {
     componentDidMount() {
         axios
             .get('http://localhost:3333/smurfs')
-            .then(response => {
-                this.setState({ smurfs: response.data });
-            })
-            .catch(err => {
-                console.log(err);
-            });
+            .then(res => this.setState({ smurfs: res.data }))
+            .catch(err => console.log(err));
     }
+
+    handleAdd = data => {
+        this.setState({ smurfs: data });
+    };
+
+    handleDelete = id => {
+        axios
+            .delete(`http://localhost:3333/smurfs/${id}`)
+            .then(res => this.setState({ smurfs: res.data }))
+            .catch(err => console.log(err));
+    };
+
+    handleUpdate = (id) => {
+       console.log('HandleUpdate was clicked with id:', id)
+    };
 
     render() {
         return (
             <div className="App">
-            <Header />
-            <Route exact path="/" render={props => (
-              <Smurfs {...props} smurfs={this.state.smurfs} />
-            )}
-            />
+                <Header />
                 <Route
                     exact
-                    path="/smurf"
+                    path="/"
                     render={props => (
-                        <SmurfForm {...props} smurfs={this.state.smurfs} />
+                        <Smurfs
+                            {...props}
+                            smurfs={this.state.smurfs}
+                            handleDelete={this.handleDelete}
+                            handleUpdate={this.handleUpdate}
+                        />
                     )}
                 />
                 <Route
-                    exact
+                    path="/smurf-form"
+                    render={props => (
+                        <SmurfForm
+                            {...props}
+                            smurfs={this.state.smurfs}
+                            handleAdd={this.handleAdd}
+                        />
+                    )}
+                />
+                <Route
                     path="/smurfs"
                     render={props => (
-                        <Smurfs {...props} smurfs={this.state.smurfs} />
+                        <Smurfs
+                            {...props}
+                            smurfs={this.state.smurfs}
+                            handleDelete={this.handleDelete}
+                            handleUpdate={this.handleUpdate}
+                        />
                     )}
                 />
             </div>
